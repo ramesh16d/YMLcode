@@ -20,138 +20,102 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ramesh.mac.examples.ymlapp.adapters.FollowerAdapter;
 import ramesh.mac.examples.ymlapp.adapters.OnItemClickListener;
-import ramesh.mac.examples.ymlapp.apicalls.RetrofitHelper;
 import ramesh.mac.examples.ymlapp.entities.Follower;
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import ramesh.mac.examples.ymlapp.ui.HomeActivityViewInterface;
+import ramesh.mac.examples.ymlapp.ui.HomeActivityPresenterInterface;
+import ramesh.mac.examples.ymlapp.ui.HomePresenterImple;
 
-public class HomeActivity extends AppCompatActivity implements OnItemClickListener{
+public class HomeActivity extends AppCompatActivity implements OnItemClickListener, HomeActivityViewInterface {
+    private static final String TAG = "HomeActivityTAG_";
+    private List<Follower> myFollowers = new ArrayList<>();
 
-    List<Follower> myFollowers = new ArrayList<>();
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    private FollowerAdapter folloW_adapter;
+
+    private FollowerAdapter followerAdapter;
+    private HomeActivityPresenterInterface homeActivityPresenterInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         ButterKnife.bind(this);
-        folloW_adapter  = new FollowerAdapter(myFollowers,this);
-     //   RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        GridLayoutManager mGridManagerGrid = new GridLayoutManager(this,3);
+
+        followerAdapter = new FollowerAdapter(myFollowers, this);
+
+        GridLayoutManager mGridManagerGrid = new GridLayoutManager(this, 3);
 
         recyclerView.setLayoutManager(mGridManagerGrid);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(folloW_adapter);
-        folloW_adapter.setClickListener(this);
-
-       // getdetailsObserver();
-
+        recyclerView.setAdapter(followerAdapter);
+        followerAdapter.setClickListener(this);
+        homeActivityPresenterInterface = new HomePresenterImple(this);
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_followers_list, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-
                 myFollowers.clear();
-
-
-
-                getdetailsObserver(query);
-                // Fetch the data remotely
-                // fetchBooks(query);
-                // Reset SearchView
+                homeActivityPresenterInterface.getDetailsObserver(query);
+                followerAdapter.notifyDataSetChanged();
                 searchView.clearFocus();
                 searchView.setQuery("", false);
                 searchView.setIconified(true);
                 searchItem.collapseActionView();
-                // Set activity title to search query
                 HomeActivity.this.setTitle(query);
+                setScreen(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+
                 return false;
             }
+
         });
+
+
         return true;
     }
 
-
-
-        /*Search for the user--- if time permits */
-
-
-    public void getdetailsObserver(String name)
+    public void setScreen(String s)
     {
 
-        Observable<List<Follower>> resultObservable = RetrofitHelper.Factory.createObservable(name);
-        Observer followerObserver = new Observer<List<Follower>>() {
-            @Override
-            public void onCompleted() {
+        homeActivityPresenterInterface.getDetailsObserver(s);
 
-            }
-
-
-            @Override
-            public void onError(Throwable e) {
-                Log.d(" Main Activity","On Error\n" +
-                        "******************************************\n"+e.getMessage()+"\n");
-            }
-
-            @Override
-            public void onNext(List<Follower> followers) {
-
-                myFollowers.clear();
-
-                for (Follower flw: followers
-                     ) {
-                    myFollowers.add(flw);
-
-                    Log.d("MainACtivity", flw.getLogin());
-                }
-
-            }
-        };
-
-        resultObservable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(followerObserver);
-        printFollowersList();
-
-    }
-
-
-    public void printFollowersList()
-    {
-        for (Follower justOne: myFollowers
-             ) {
-            Log.d("InPrint Main Activity",justOne.toString());
-
-        }
     }
 
     @Override
     public void onClick(View view, int position) {
-
         Follower follower = myFollowers.get(position);
+        homeActivityPresenterInterface.onItemClick(follower);
+    }
 
-        Intent intent = new Intent(this, UserDetailsAcivity.class);
-        intent.putExtra("loginName", follower.getLogin());
+    @Override
+    public void getFollowerDetails(List<Follower> followers) {
+        myFollowers.clear();
+        for (Follower follower : followers) {
+            myFollowers.add(follower);
+            Log.d(TAG, "getFollowerDetails: " + follower.getLogin());
+        }
+        followerAdapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void goToDetails(String loginName) {
+        Intent intent = new Intent(this, UserDetailsActivity.class);
+        intent.putExtra("loginName", loginName);
         startActivity(intent);
-
-          Log.d("Home",follower.getLogin());
     }
 }

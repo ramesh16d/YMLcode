@@ -16,13 +16,11 @@ import java.util.List;
 import ramesh.mac.examples.ymlapp.R;
 import ramesh.mac.examples.ymlapp.entities.Follower;
 
-/**
- * Created by User on 2/20/2017.
- */
+
 
 public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.FollowerViewHolder> {
-
     private static final String TAG = "Adapter";
+
     private List<Follower> myfollowersList;
     Context context;
     OnItemClickListener onItemClickListener;
@@ -38,7 +36,8 @@ public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.Follow
 
         Follower follower = myfollowersList.get(position);
 
-        holder.follName.setText(follower.getLogin());Picasso.with(context).load(follower.getAvatarUrl()).transform(new CircleTransformation())
+        holder.follName.setText(follower.getLogin());
+        Picasso.with(context).load(follower.getAvatarUrl()).transform(new CircleTransformation())
                 .into(holder.follImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -51,19 +50,16 @@ public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.Follow
 
                     }
                 });
-
-
-
     }
 
     @Override
     public int getItemCount() {
         return myfollowersList.size();
     }
+
     public class FollowerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView follName;
         ImageView follImage;
-
 
         public FollowerViewHolder(View itemView) {
             super(itemView);
@@ -79,7 +75,6 @@ public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.Follow
 
         }
     }
-
 
     public void setClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;

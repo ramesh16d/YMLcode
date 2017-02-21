@@ -8,12 +8,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Observable;
 
-/**
- * Created by User on 2/20/2017.
- */
 
 public interface GithubServices {
-
     @GET("users/{user}/followers")
     Observable<List<Follower>> getfollowers(@Path("user") String user);
 

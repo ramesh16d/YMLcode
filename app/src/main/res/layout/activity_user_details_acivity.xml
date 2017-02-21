@@ -5,23 +5,32 @@ android:id="@+id/activity_detail"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
-tools:context="ramesh.mac.examples.ymlapp.UserDetailsAcivity">
+tools:context="ramesh.mac.examples.ymlapp.UserDetailsActivity">
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/myFrameLayout"
+
+    >
 
 <LinearLayout
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:id="@+id/myLinearLayOut"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+   >
     <ImageView
         android:layout_width="200dp"
         android:textAlignment="center"
         android:layout_gravity="center"
         android:id="@+id/detailImageView"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:background="#FFFFFF"
         android:id="@+id/logInName"
         android:layout_height="wrap_content" />
     <LinearLayout
@@ -36,12 +45,15 @@ tools:context="ramesh.mac.examples.ymlapp.UserDetailsAcivity">
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
-
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:text="Repositories"
+                android:textColor="#d9ff51"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_width="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:id="@+id/tvRepositories"
+                android:textColor="#d9ff51"
                 android:layout_height="wrap_content" />
         </LinearLayout>
         <LinearLayout
@@ -50,11 +62,15 @@ tools:context="ramesh.mac.examples.ymlapp.UserDetailsAcivity">
             android:layout_marginLeft="20dp"
             android:layout_height="wrap_content">
             <TextView
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="#d9ff51"
                 android:layout_width="wrap_content"
                 android:text="Followers"
                 android:layout_height="wrap_content" />
             <TextView
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
+                android:textColor="#d9ff51"
                 android:id="@+id/tvFollowers"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -62,13 +78,18 @@ tools:context="ramesh.mac.examples.ymlapp.UserDetailsAcivity">
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:orientation="vertical"
+            android:textColor="#d9ff51"
             android:layout_height="wrap_content">
             <TextView
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
+                android:textColor="#d9ff51"
                 android:text="Following"
                 android:layout_height="wrap_content" />
             <TextView
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
+                android:textColor="#d9ff51"
                 android:id="@+id/tvFollowing"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -77,6 +98,7 @@ tools:context="ramesh.mac.examples.ymlapp.UserDetailsAcivity">
     </LinearLayout>
 
 </LinearLayout>
+</FrameLayout>
 
 
     <LinearLayout
@@ -86,11 +108,14 @@ tools:context="ramesh.mac.examples.ymlapp.UserDetailsAcivity">
         <TextView
             android:layout_width="wrap_content"
             android:id="@+id/tvLocation"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
         <TextView
             android:layout_width="wrap_content"
             android:id="@+id/tvEmail"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
+
     </LinearLayout>
 
 
